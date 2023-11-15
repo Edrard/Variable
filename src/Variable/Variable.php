@@ -2,9 +2,6 @@
 
 namespace edrard\Variable;
 
-/**
-* Based on: http://stackoverflow.com/questions/99350/passing-php-associative-arrays-to-and-from-xml
-*/
 class Variable
 {
     private static $data = array();
