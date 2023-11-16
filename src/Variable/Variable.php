@@ -20,6 +20,10 @@ class Variable
         }
         return static::$data;
     }
+
+
+
+
     private static function callableFunction($func){
         if(is_callable($func)){
             static::$data = call_user_func($func,static::$data);
@@ -27,13 +31,22 @@ class Variable
     }
     private static function getData(string $type,array $params){
         foreach($params as $param){
-            $param === '*'
-            ?
-            static::$data = $GLOBALS[$type]
-            :
+            if($param === '*'){
+                static::getAll($type);
+            }else{
+                static::getParam($param,$type);
+            }
+        }
+    }
+    private static function getAll($type){
+        if(isset($GLOBALS[$type])){
+            static::$data = $GLOBALS[$type];
+        }
+    }
+    private static function getParam($param,$type){
+        if(isset($GLOBALS[$type]) && isset($GLOBALS[$type][$param])){
             static::$data[$param] = $GLOBALS[$type][$param];
         }
-        //print_r(static::$data);
     }
     public static function getLast(){
         return static::$data;
