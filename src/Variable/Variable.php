@@ -8,6 +8,7 @@ class Variable
 
     public static function __callStatic($name, $arguments)
     {
+        static::writeServerToGlobal();
         static::resset();
         $type = '_'.strtoupper($name);
         $params = $arguments[0];
@@ -22,7 +23,11 @@ class Variable
     }
 
 
-
+    private static function writeServerToGlobal(){
+        if(!isset($GLOBALS['_SERVER'])){
+            $GLOBALS['_SERVER'] = $_SERVER;
+        }
+    }
 
     private static function callableFunction($func){
         if(is_callable($func)){
@@ -33,6 +38,7 @@ class Variable
         foreach($params as $param){
             if($param === '*'){
                 static::getAll($type);
+                break;
             }else{
                 static::getParam($param,$type);
             }
